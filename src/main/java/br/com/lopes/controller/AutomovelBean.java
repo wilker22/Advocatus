@@ -11,7 +11,7 @@ import br.com.lopes.util.JPAUtil;
 
 @ManagedBean
 public class AutomovelBean {
-	/* Teste */
+	/* Teste GIT */
 	Automovel automovel = new Automovel();
 	private List<Automovel> automoveis;
 
