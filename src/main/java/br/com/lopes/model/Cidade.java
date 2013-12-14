@@ -14,7 +14,7 @@ public class Cidade {
 	 
 	private String nome;
 	
-	// UF da Cidade
+	// UF
 	private String estado;
 	 
 }
