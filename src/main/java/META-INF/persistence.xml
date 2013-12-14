@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+
+		<class>br.com.lopes.model.Automovel</class>
+		<class>br.com.lopes.model.Pessoa</class>
+		<class>br.com.lopes.model.Endereco</class>
+		<class>br.com.lopes.model.Cidade</class>
+		
+		<properties>
+
+			<!-- Oracle XE -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+			<property name="javax.persistence.jdbc.user" value="ADVOCATUS" />
+			<property name="javax.persistence.jdbc.password" value="liberada" />
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+
+			<!-- Oracle 11g -->
+			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@192.168.1.23:1521:csdesv" 
+				/> <property name="javax.persistence.jdbc.user" value="CSDBA" /> <property 
+				name="javax.persistence.jdbc.password" value="liberada" /> <property name="javax.persistence.jdbc.driver" 
+				value="oracle.jdbc.OracleDriver" /> <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" 
+				/> -->
+				
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+
+	</persistence-unit>
+
+</persistence>
