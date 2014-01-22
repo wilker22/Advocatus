@@ -3,21 +3,37 @@ package br.com.lopes.model;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.UniqueConstraint;
+
+@Entity
 public class ProcessoJuridico {
  
-	private long id;
+	@SequenceGenerator(name="processoGenerator",sequenceName="seq_processo")
+	@Id @GeneratedValue(generator="processoGenerator")
+	protected long id;
 	 
-	private String nrProcesso;
-	 
+	private String numeroProcesso;
+	
+	
 	private Calendar data;
-	 
-	private TipoProcesso tipoProcesso;
+	
+	@ManyToMany
+	@JoinTable(uniqueConstraints=@UniqueConstraint(columnNames={"processosJuridicos_id","advogados_id_pessoafisica"}))
+    private List<Advogado> advogados;
+	
+/*	private TipoProcesso tipoProcesso;
 	 
 	private List<Pessoa> requerentes;
 	 
 	private List<Pessoa> requeridos;
 	
-	private List<Advogado> advogados;
+	
 	
 	private List<DocumentoProcessoJuridico> documentos;
 
@@ -26,7 +42,7 @@ public class ProcessoJuridico {
 	
 	public SituacaoProcessoJuridico situacaoProcesso() {
 		return null;
-	}
+	}*/
 	 
 }
  
