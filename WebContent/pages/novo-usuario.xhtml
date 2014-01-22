@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:outputStylesheet library="default" name="css/style.css"></h:outputStylesheet>
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Advocatus - Novo usuário</title>
+	<link type="text/css" rel="stylesheet" href="dot-luv/skin.css" />
+</h:head>
+
+<h:body>
+
+		
+	<p:panel id="panel" header="Cadastro - Informe os dados abaixo" style="margin-bottom:10px;">
+		<h:form >
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome:" for="nome"/>
+				<h:inputText id="nome" value="#{usuarioBean.usuario.pessoa.nome}"/>			
+				<h:outputLabel value="E-mail:" for="email"/>
+				<h:panelGroup>
+				<h:inputText id="email" value="#{usuarioBean.usuario.logon}"/>				
+					<h:outputText value="E-mail já existe no sistema." for="email" rendered="#{param.erro == 1}" style="color: darkred;font-size: 12px" />
+					<h:outputText value="E-mail não foi informado corretamente." for="email" rendered="#{param.erro == 2}" style="color: darkred;font-size: 12px" />
+				</h:panelGroup>
+				<h:outputLabel value="Senha:" for="senha"/>
+				<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}"/>
+			</h:panelGrid>			
+			<h:commandButton value="Gravar" action="#{usuarioBean.novoUsuario(usuarioBean.usuario)}"/>
+		</h:form>
+		<h:link value="Retornar" outcome="login.xhtml?faces-redirect=true"/>
+	</p:panel>
+	
+	
+</h:body>
+</html>
