@@ -1,8 +1,11 @@
 package br.com.lopes.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -14,8 +17,10 @@ public class Cidade {
 	 
 	private String nome;
 	
-	// UF
 	private String estado;
-	 
+	
+	@OneToMany(mappedBy="cidade")
+	private List<Endereco> endereco;
+	
 }
  

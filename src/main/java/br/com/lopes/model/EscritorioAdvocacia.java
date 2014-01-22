@@ -1,8 +1,17 @@
 package br.com.lopes.model;
 
-public class EscritorioAdvocacia extends Escritorio implements Advogar {
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+
+@Entity
+@PrimaryKeyJoinColumn(name="id_pessoajuridica")
+public class EscritorioAdvocacia extends PessoaJuridica implements Advogar {
  
-	private Advogado advogados;
+	@OneToMany(mappedBy="escritorio")
+	private List<Advogado> advogados;
 	 
 	public void produzProcesso() {
 	}
