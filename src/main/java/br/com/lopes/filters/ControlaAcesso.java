@@ -30,6 +30,8 @@ public class ControlaAcesso implements Filter {
 				|| req.getRequestURI().endsWith("pages/login.xhtml")
 				|| req.getRequestURI().endsWith("pages/novo-usuario.xhtml")
 				|| req.getRequestURI().endsWith("pages/recuperar-usuario-senha.xhtml")
+				|| req.getRequestURI().endsWith("template.xhtml")
+				|| req.getRequestURI().contains("logo_48x48.png")
 				|| req.getRequestURI().contains("user.png")
 				|| req.getRequestURI().contains("primefaces.css")
 				|| req.getRequestURI().contains("theme.css")

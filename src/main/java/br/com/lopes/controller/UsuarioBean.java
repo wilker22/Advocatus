@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -89,7 +90,22 @@ public class UsuarioBean {
 		List<Usuario> results = query.getResultList();
 		
 		return !results.isEmpty();
+	}
+	
+	public String recuperarSenha(Usuario usuario){
 		
+		// Usuário inexistente
+		if (!existe(usuario)){
+			return null;
+		}else{
+			
+			try {
+				EmailUtil.enviarEmail(usuario.getLogon());
+			} catch (MessagingException e) {
+				Logger.getLogger(UsuarioBean.class.getName()).error("Falha ao enviar e-mail para o usuário"+ usuario.getLogon());
+			}
+		}
+		return null;
 	}
 	
 }

@@ -1,19 +1,16 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/WEB-INF/templates/template.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:outputStylesheet library="default" name="css/style.css"></h:outputStylesheet>
-
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<ui:define name="head">
 	<title>Advocatus - Login</title>
-	<link type="text/css" rel="stylesheet" href="dot-luv/skin.css" />
-</h:head>
+</ui:define>
 
-<h:body style="background-position: 50% 0%;background-repeat: no-repeat">
+
+<ui:define name="body" style="background-repeat:no-repeat;background-size:contain;background-position:center;">
 
 	<p:dialog header="Login" visible="true" closable="false"
 		draggable="false" resizable="false" width="420">
@@ -22,18 +19,18 @@
 
 		<h:form >
 			<h:panelGrid columns="2" >
-				<h:outputLabel for="j_username" value="Usuário: *" />
-				<h:inputText id="j_username" value="#{autenticacaoBean.usuario.logon}" style="text-transform:uppercase" />
-
-
+				<h:outputLabel for="j_username" value="UsuÃ¡rio: *"/>
+				<h:inputText id="j_username" value="#{autenticacaoBean.usuario.logon}" size="20" maxlength="40" style="text-transform:uppercase" />
+				
 				<h:outputLabel for="j_password" value="Senha: * " />
-				<h:inputSecret id="j_password" value="#{autenticacaoBean.usuario.senha}" />
+				<h:inputSecret id="j_password" value="#{autenticacaoBean.usuario.senha}" size="20" maxlength="20" />
 				
 				<h:panelGroup>
 					<h:form>
-					<h:link value="Criar novo usuário" outcome="novo-usuario" style="font-size: 11px" />
+					<h:link value="Criar novo usuÃ¡rio" outcome="novo-usuario" style="font-size: 11px" />
 					<br/>
-					<h:link value="Esqueci meu usuário e/ou senha" outcome="recuperar-usuario-senha" style="font-size: 11px"/>
+					<h:link value="Esqueci meu usuÃ¡rio e/ou senha" outcome="recuperar-usuario-senha" style="font-size: 11px"/>
+					
 					</h:form>
 				</h:panelGroup>
 				
@@ -42,9 +39,11 @@
 		</h:form>
 		<h:messages/>
 		<center>
-			<h:outputText value="Usuário ou senha incorretos!" rendered="#{param.erro}" style="color: darkred;font-size: 12px" />
+			<h:outputText value="UsuÃ¡rio ou senha incorretos!" rendered="#{param.erro}" style="color: darkred;font-size: 12px" />
 		</center>
 	</p:dialog>
+</ui:define>
 
-</h:body>
-</html>
+
+
+</ui:composition>

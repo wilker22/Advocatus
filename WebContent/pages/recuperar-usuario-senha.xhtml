@@ -1,19 +1,24 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/WEB-INF/templates/template.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:outputStylesheet library="default" name="css/style.css"></h:outputStylesheet>
+<ui:define name="head">
+	<title>Advocatus - Recuperar senha</title>
+</ui:define>
 
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Advocatus - Recuperar usuário e/ou senha</title>
-</h:head>
 
-<h:body>
-
-</h:body>
-
-</html>
+<ui:define name="body" >
+	<p:dialog header="Recuperar senha" visible="true" closable="false" draggable="false" resizable="false" width="420">
+		<h:form>
+			<h:panelGrid columns="1">
+			<h:outputLabel for="email" value="Informe seu e-mail"></h:outputLabel>
+			<h:inputText id="email" value="#{usuarioBean.usuario.logon}"></h:inputText>
+			<h:commandButton value="Enviar" action="#{usuarioBean.recuperarSenha(usuarioBean.usuario)}"></h:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:define>
+</ui:composition>
