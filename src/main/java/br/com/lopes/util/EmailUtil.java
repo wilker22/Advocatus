@@ -24,15 +24,15 @@ public final class EmailUtil {
 	 */
 	public static boolean emailValido(String email) {
 		
-		Logger.getLogger(EmailUtil.class.getName()).info("Validar email:" + email);
+		Logger.getLogger(EmailUtil.class.getName()).info("Validar email: [" + email+']');
 		Pattern p = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$");
 		Matcher m = p.matcher(email);
 		
 		if (m.find()) {
-			Logger.getLogger(EmailUtil.class.getName()).info("E-mail "+email+" válido");	
+			Logger.getLogger(EmailUtil.class.getName()).info("E-mail ["+email+"] válido");	
 			return true;
 		} else {
-			System.out.println("O E-mail " + email + " é inválido");
+			System.out.println("O E-mail [" + email + "] é inválido");
 			return false;
 		}
 	}
