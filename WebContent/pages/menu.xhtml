@@ -31,33 +31,35 @@
 </style>
 	</h:head>
 
-	<h:outputLabel>Olá #{sessionScope.usuario}! Você está logado.</h:outputLabel>
-	<h:form>
-		<h:commandLink value="Sair" action="#{autenticacaoBean.logout}" />
-	</h:form>
-
-
 	<h:body>
+		<h:outputLabel value="Olá #{sessionScope.usuario}." />
 
 		<p:layout fullPage="true">
 
-			<p:layoutUnit id="top" position="north" size="50">
-
-				<p:menubar>
-					<p:submenu label="File" icon="ui-icon-document">
-						<p:submenu label="New" icon="ui-icon-contact">
-							<p:menuitem value="Project" url="#" />
-							<p:menuitem value="Other"   url="#" />
+			<p:layoutUnit id="top" position="north" size="200">
+				
+				<p:outputLabel value="Olá #{sessionScope.usuario}. Bem-vindo ao Advocatus - Sistema Gerenciador de Processos Jurídicos" />			
+				
+				<p:menubar autoDisplay="false">
+					
+					<p:menuitem value="Meus dados"  url="meus-dados.xhtml" icon="ui-icon-pencil"/>
+									
+					<p:submenu label="Cadastro" icon="ui-icon-document">
+						<p:submenu label="Pessoa" icon="ui-icon-contact">
+							<p:menuitem value="Usuário"  url="novo-usuario.xhtml"/>
+							<p:menuitem value="Advogado" url="#"/>
 						</p:submenu>
-						<p:menuitem value="Open" url="#" />
-						<p:menuitem value="Quit" url="#" />
+						<p:submenu label="Processo">
+							<p:menuitem value="Processo" url="#"/>
+							<p:menuitem value="Tipo Processo" url="#"/>
+							<p:menuitem value="Fases Processo" url="#"/>
+							<p:menuitem value="Órgão Judicial" url="#"/>
+						</p:submenu>
 					</p:submenu>
 
-					<p:submenu label="Edit" icon="ui-icon-pencil">
-						<p:menuitem value="Undo" url="#"
-							icon="ui-icon-arrowreturnthick-1-w"></p:menuitem>
-						<p:menuitem value="Redo" url="#"
-							icon="ui-icon-arrowreturnthick-1-e"></p:menuitem>
+					<p:submenu label="Processo" icon="ui-icon-suitcase">
+						<p:menuitem value="Andamento" url="#"/>
+						<p:menuitem value="Prazos" url="#" />
 					</p:submenu>
 
 					<p:submenu label="Help" icon="ui-icon-help">
@@ -69,6 +71,19 @@
 							<p:menuitem value="File" url="#" />
 						</p:submenu>
 					</p:submenu>
+
+					<f:facet name="options">
+					    <h:form>
+							<p:commandButton value="Sair" icon="ui-icon-closethick" action="#{autenticacaoBean.logout}">
+								<p:confirm header="Confirmação" message="Deseja sair do sistema ?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</h:form>
+						<p:confirmDialog global="true" showEffect="fade">
+							<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>						
+					</f:facet>
+
 				</p:menubar>
 			</p:layoutUnit>
 
@@ -138,8 +153,6 @@
 
 			<p:layoutUnit id="center" position="center">
 				<h:form>
-
-
 
 				</h:form>
 			</p:layoutUnit>

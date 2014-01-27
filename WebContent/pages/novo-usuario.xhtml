@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/WEB-INF/templates/template.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -6,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:define name="head">
-	<title>Advocatus - Novo usuÃ¡rio</title>
+	<title>Advocatus - Novo usuário</title>
 </ui:define>
 
 
@@ -14,21 +16,30 @@
 
 	<p:panel id="panel" header="Cadastro - Informe os dados abaixo" style="margin-bottom:10px;">
 		<h:form >
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="2">			
 				<h:outputLabel value="Nome:" for="nome"/>
-				<h:inputText id="nome" value="#{usuarioBean.usuario.pessoa.nome}"/>			
+				<h:inputText id="nome" value="#{usuarioBean.usuario.pessoa.nome}"/>
+				<h:outputLabel value="Usuário:" for="logon"/>
+    			<h:panelGroup>				
+    				<h:inputText id="logon" value="#{usuarioBean.usuario.logon}" title="O usuário deve ter entre 4 e 20 caracteres." style="text-transform:uppercase"/>
+					<p:tooltip for="logon" showEvent="focus" hideEvent="blur" />    			    				
+    			</h:panelGroup>
 				<h:outputLabel value="E-mail:" for="email"/>
-				<h:panelGroup>
-				<h:inputText id="email" value="#{usuarioBean.usuario.logon}"/>				
-					<h:outputText value="E-mail jÃ¡ existe no sistema." for="email" rendered="#{param.erro == 1}" style="color: darkred;font-size: 12px" />
-					<h:outputText value="E-mail nÃ£o foi informado corretamente." for="email" rendered="#{param.erro == 2}" style="color: darkred;font-size: 12px" />
-				</h:panelGroup>
-				<h:outputLabel value="Senha:" for="senha"/>
-				<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}"/>
+				<h:inputText id="email" value="#{usuarioBean.usuario.email}"/>
+				<h:outputLabel value="Senha:" for="senha"/>				
+					<h:panelGroup>
+					<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}" title="A senha deve ter entre 6 e 20 caracteres."/>
+					<p:tooltip for="senha" showEvent="focus" hideEvent="blur" />
+				</h:panelGroup>				
+				<h:outputLabel value="Confirme a senha:" for="senha2"/>
+				<h:inputSecret id="senha2" value="#{usuarioBean.usuario.senhaConfirmacao}"/>
 			</h:panelGrid>			
 			<h:commandButton value="Gravar" action="#{usuarioBean.novoUsuario(usuarioBean.usuario)}"/>
-		</h:form>
-		<h:link value="Retornar" outcome="login.xhtml?faces-redirect=true"/>
+			<h:messages/>			
+		</h:form>		
+		
+		<h:link id="clRetornar" value="Retornar" onclick="history.go(-1); return false;"/>   
+          
 	</p:panel>
 </ui:define>
 

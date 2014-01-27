@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/WEB-INF/templates/template.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -19,7 +21,7 @@
 
 		<h:form >
 			<h:panelGrid columns="2" >
-				<h:outputLabel for="j_username" value="UsuÃ¡rio: *"/>
+				<h:outputLabel for="j_username" value="Usuário: *"/>
 				<h:inputText id="j_username" value="#{autenticacaoBean.usuario.logon}" size="20" maxlength="40" style="text-transform:uppercase" />
 				
 				<h:outputLabel for="j_password" value="Senha: * " />
@@ -27,9 +29,9 @@
 				
 				<h:panelGroup>
 					<h:form>
-					<h:link value="Criar novo usuÃ¡rio" outcome="novo-usuario" style="font-size: 11px" />
+					<h:link value="Criar novo usuário" outcome="novo-usuario" style="font-size: 11px" />
 					<br/>
-					<h:link value="Esqueci meu usuÃ¡rio e/ou senha" outcome="recuperar-usuario-senha" style="font-size: 11px"/>
+					<h:link value="Esqueci meu usuário e/ou senha" outcome="recuperar-usuario-senha" style="font-size: 11px"/>
 					
 					</h:form>
 				</h:panelGroup>
@@ -37,13 +39,10 @@
 				<h:commandButton value="Login" action="#{autenticacaoBean.efetuarLogon(autenticacaoBean.usuario)}" />
 			</h:panelGrid>
 		</h:form>
-		<h:messages/>
-		<center>
-			<h:outputText value="UsuÃ¡rio ou senha incorretos!" rendered="#{param.erro}" style="color: darkred;font-size: 12px" />
-		</center>
+		
+		<p:messages/>
+				
 	</p:dialog>
 </ui:define>
-
-
 
 </ui:composition>
