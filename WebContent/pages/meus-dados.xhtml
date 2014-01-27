@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/template.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:define name="head">
+	<title>Advocatus - Meus dados</title>
+</ui:define>
+
+<ui:define name="body">
+	<p:outputLabel value="*Substituir este template pelo Menu do sistema"/>
+
+
+<h:form>
+<ui:repeat var="user" value="#{usuarioBean.getUsuario(sessionScope.usuario)}" >					
+	<p:panel header="Dados Pessoais">
+			<p:panelGrid columns="2">
+				<p:outputLabel for="id" value="ID"/>
+				<p:outputLabel id="id" value="#{user.id}"/>
+				<p:outputLabel for="nome" value="Nome"/>
+				<p:inputText id="nome" value="#{user.pessoa.nome}"/>
+				<p:outputLabel for="dataCriacao" value="Data Criação"/>
+				<p:outputLabel id="dataCriacao" value="#{user.dataCriacao.getTime()}" readonly="true">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+				</p:outputLabel>
+				<p:outputLabel for="usuario" value="Usuário"/>
+				<p:outputLabel id="usuario" value="#{user.logon}"/>
+				<p:outputLabel for="senha" value="Senha"/>
+				<h:inputSecret id="senha" value="#{user.senha}" />
+				<p:outputLabel for="email" value="E-mail"/>
+				<p:inputText id="email" value="#{user.email}"/>
+		</p:panelGrid>
+	</p:panel>
+	
+	<p:panel header="Endereços">
+		
+		<p:dataTable var="end" value="#{usuarioBean.getUsuario(sessionScope.usuario)}" id="carList" editable="true">
+		
+		<f:facet name="header">  
+            Endereço
+        </f:facet>   
+       	</p:dataTable>
+	
+	</p:panel>
+	
+</ui:repeat>	
+	
+</h:form>
+</ui:define>
+
+</ui:composition>
