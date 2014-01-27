@@ -10,6 +10,10 @@
 	<application>
 		<message-bundle>Messages</message-bundle>
 	</application>
+	
+	<lifecycle>
+        <phase-listener>br.com.lopes.util.MultiPageMessagesSupport</phase-listener>
+    </lifecycle>	
 
 
 <!-- 	<navigation-rule>

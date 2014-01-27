@@ -14,10 +14,18 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
+	<!-- Este parâmetro indica que o formulário ao ser submetido irá interpretar 
+	uma String vazia como nula se não estiver preenchida --> 
 	<context-param>
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	
+	<!-- Este parâmetro indica que o timeZone das propriedades Calendar terão o defaul do sistema -->
+	<context-param>
+	    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+	    <param-value>true</param-value>
+	</context-param>	
 	
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
