@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -29,9 +30,17 @@ public class Usuario implements Serializable{
 	@NotNull(message="Informe o Usuário")
 	private String logon;
 	
+	@Column(nullable=false)
+	@NotNull(message="Informe o E-mail")
+	private String email;
+	
 	@Column(nullable=false)	
 	@NotNull(message="Informe a Senha")
 	private String senha;
+	
+	@Transient
+	@NotNull(message="Confirme a Senha")
+	private String senhaConfirmacao;
 	
 	@Column(nullable=false)
 	private int ativo;
@@ -55,8 +64,32 @@ public class Usuario implements Serializable{
 		return logon;
 	}
 
-	public void setLogon(String logon) {
-		this.logon = logon;
+	public void setLogon(String logon) {		
+		this.logon = logon.trim().toUpperCase();
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+	
+	public void setSenha(String senha) {
+		this.senha= senha ;
+	}	
+	
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
 	}
 
 	public Calendar getDataCriacao() {
@@ -73,14 +106,6 @@ public class Usuario implements Serializable{
 
 	public void setAtivo(int ativo) {
 		this.ativo = ativo;
-	}
-	
-	public void setSenha(String senha) {
-		this.senha= senha ;
-	}
-	
-	public String getSenha() {
-		return senha;
 	}
 	
 	public void setPessoa(Pessoa pessoa){
