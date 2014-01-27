@@ -3,11 +3,16 @@ package br.com.lopes.controller;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -33,6 +38,21 @@ public class UsuarioBean {
 	public Usuario getUsuario(){
 		return usuario;
 	}
+	
+	public List<Usuario> getUsuario(String logon) {
+		
+		EntityManager manager = JPAUtil.getEntityManager();
+		String sql = "select a from Usuario a where logon = :logon";
+		Query query = manager.createQuery(sql,Usuario.class);
+		query.setParameter("logon", logon);
+
+		@SuppressWarnings("unchecked")
+		List<Usuario> results = query.getResultList();
+		
+		Logger.getLogger(UsuarioBean.class.getName()).info("Consultar USUARIO: [" + logon + "]:" + results);		
+		
+		return results;
+	}
 
 	public Pessoa getPessoa() {
 		return pessoa;
@@ -46,19 +66,36 @@ public class UsuarioBean {
 	 */
 	public String novoUsuario(Usuario usuario){
 		
+		String msg = null;
+		
 		// Usuário já existe na base
 		if (this.existe(usuario)){
-			return "novo-usuario.xhtml?faces-redirect=true&amp;erro=1";
+			msg = "Este usuário já está cadastrado no sistema, por favor escolha outro.";
 		}
 		
 		// E-mail não é válido
-		if (!EmailUtil.emailValido(usuario.getLogon())){
-			return "novo-usuario.xhtml?faces-redirect=true&amp;erro=2";
+		if (!EmailUtil.emailValido(usuario.getEmail())){
+			msg = "O e-mail utilizado não é válido. ["+usuario.getEmail()+ ']';
+		}
+		
+		
+		// Senhas não coincidem		
+		if (!usuario.getSenha().equals(usuario.getSenhaConfirmacao())){
+			msg = "As senhas digitadas não coincidem";
+		}
+		
+		// Em caso de erro, não permitir a criação do novo usuário
+		if (msg != null){
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, msg, null);  
+	        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	        
+			return "novo-usuario.xhtml";
 		}
 		
 		// Registrar usuário na base
 		usuario.setDataCriacao(Calendar.getInstance());
 		usuario.setAtivo(1);
+		usuario.setLogon(usuario.getLogon());
 		
 		Logger.getLogger(AutenticacaoBean.class.getName()).info("Registrar usuário: " + usuario.getLogon());
 		EntityManager manager = JPAUtil.getEntityManager();
@@ -66,8 +103,11 @@ public class UsuarioBean {
 		manager.getTransaction().begin();
 		manager.getTransaction().commit();
 		manager.close();
-		Logger.getLogger(AutenticacaoBean.class.getName()).info("Usuário: " + usuario + usuario.getLogon() + " registrado");
+		Logger.getLogger(AutenticacaoBean.class.getName()).info("Usuário registrado: [" + usuario.getLogon() + ']');
 		
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário "+usuario.getLogon()+" criado", null);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+        
 		return "login.xhtml?faces-redirect=true";
 	}
 	
@@ -79,18 +119,14 @@ public class UsuarioBean {
 	 */
 	public boolean existe(Usuario usuario){
 
-		EntityManager manager = JPAUtil.getEntityManager();
+		List<Usuario> results = getUsuario(usuario.getLogon());
 
-		Logger.getLogger(AutenticacaoBean.class.getName()).info("Buscar o usuário: " + usuario.getLogon() + " no DB");
-		String sql = "select a from Usuario a where logon = :logon";
-		Query query = manager.createQuery(sql,Usuario.class);
-		query.setParameter("logon", usuario.getLogon().trim().toUpperCase());
+		boolean existe = !results.isEmpty();
 		
-		@SuppressWarnings("unchecked")
-		List<Usuario> results = query.getResultList();
-		
-		return !results.isEmpty();
+		return existe;
 	}
+
+	
 	
 	public String recuperarSenha(Usuario usuario){
 		
@@ -100,9 +136,9 @@ public class UsuarioBean {
 		}else{
 			
 			try {
-				EmailUtil.enviarEmail(usuario.getLogon());
+				EmailUtil.enviarEmail(usuario.getEmail());
 			} catch (MessagingException e) {
-				Logger.getLogger(UsuarioBean.class.getName()).error("Falha ao enviar e-mail para o usuário"+ usuario.getLogon());
+				Logger.getLogger(UsuarioBean.class.getName()).error("Falha ao enviar e-mail para o usuário: ["+ usuario.getLogon() + "] email: ["+ usuario.getEmail()+']');
 			}
 		}
 		return null;

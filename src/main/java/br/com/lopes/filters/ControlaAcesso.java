@@ -27,6 +27,7 @@ public class ControlaAcesso implements Filter {
 		HttpSession session = req.getSession();
 		
 		if (session.getAttribute("usuario") != null
+				|| req.getRequestURI().endsWith("pages/index.xhtml")
 				|| req.getRequestURI().endsWith("pages/login.xhtml")
 				|| req.getRequestURI().endsWith("pages/novo-usuario.xhtml")
 				|| req.getRequestURI().endsWith("pages/recuperar-usuario-senha.xhtml")

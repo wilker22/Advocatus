@@ -3,6 +3,7 @@ package br.com.lopes.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import br.com.lopes.model.Automovel;
 import br.com.lopes.model.Usuario;
 import br.com.lopes.util.JPAUtil;
 
@@ -30,34 +30,47 @@ public class AutenticacaoBean implements Serializable{
 	public String efetuarLogon(Usuario usuario){	
 		
 		boolean autenticacao;
+		String msg = null;
 		
-		EntityManager manager = JPAUtil.getEntityManager();
+		usuario.setLogon(usuario.getLogon());
+		
+		// Verificar se usuário existe
+		UsuarioBean usuarioBean = new UsuarioBean();
+		if (!(autenticacao = usuarioBean.existe(usuario))){
+			msg = "Usuário não cadastrado!";
+		}
+		else{
+			
+			//Autenticar usuário
+			EntityManager manager = JPAUtil.getEntityManager();
+			String sql = "select a from Usuario a where logon = :logon and senha = :senha and ativo = 1";
+			Query query = manager.createQuery(sql,Usuario.class);
+			query.setParameter("logon", usuario.getLogon());
+			query.setParameter("senha", usuario.getSenha());
 
-		Logger.getLogger(AutenticacaoBean.class.getName()).info("Autenticar usuário: " + usuario.getLogon() + '/' +usuario.getSenha());
-		String sql = "select a from Usuario a where logon = :logon and senha = :senha and ativo = 1";
-		Query query = manager.createQuery(sql,Usuario.class);
-		query.setParameter("logon", usuario.getLogon().toUpperCase());
-		query.setParameter("senha", usuario.getSenha());
-		
-		@SuppressWarnings("unchecked")
-		List<Usuario> results = query.getResultList();
-		
-		autenticacao = !(results.isEmpty());
-		manager.close();
+			@SuppressWarnings("unchecked")
+			List<Usuario> results = query.getResultList();
 
-		Logger.getLogger(AutenticacaoBean.class.getName()).info("Autenticação usuário " + usuario.getLogon() + ':' + autenticacao);
+			autenticacao = !(results.isEmpty());
+			manager.close();
+			Logger.getLogger(AutenticacaoBean.class.getName()).info("Autenticação usuário [" + usuario.getLogon() + '/' + usuario.getSenha() + "]:" + autenticacao);
+			msg = "Usuário/senha incorretos!";
+		}
 		
-		if (autenticacao) {
+		
+		if (!autenticacao) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, msg, null);  
+	        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	        
+			return "login?faces-redirect=true";
+		}else{
+			
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
 			HttpSession session = ( HttpSession )ec.getSession(false);
-			session.setAttribute ("usuario", usuario.getLogon());
-			return "menu";
-		}else{
-			return "login.xhtml?faces-redirect=true&amp;erro=true";
+			session.setAttribute("usuario", usuario.getLogon());
+			return "menu?faces-redirect=true";
 		}
-		
-		//return autenticacao;
 	}
 	
 	public String logout(){
@@ -69,7 +82,7 @@ public class AutenticacaoBean implements Serializable{
 		Logger.getLogger(AutenticacaoBean.class.getName()).info("Logout: "+ session.getAttribute("usuario"));		
 		session.removeAttribute("usuario");
 
-		return "login";
+		return "login?faces-redirect=true";
 	}
 
 	
