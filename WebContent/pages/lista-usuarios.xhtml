@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/template-menu.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="head">
+		<title>Advocatus - Usuários</title>
+	</ui:define>
+
+	<ui:define name="body">
+		<div align="center">
+		<p:layout style="min-width:1020px;max-width:1020px;min-height:600px" id="layout">			
+			<p:layoutUnit position="center" resizable="true" style="border:0">
+				<p:panel header="Usuários" style="border:0">				
+					<h:form>
+						<p:dataTable var="usuarios" value="#{usuarioBean.listaUsuarios()}" id="tabela">
+							<p:column headerText="ID">
+								<h:outputText value="#{usuarios.id}" />
+							</p:column>
+							<p:column headerText="Logon">
+								<h:outputText value="#{usuarios.logon}" />
+							</p:column>
+							<p:column headerText="Data Criação">
+								<h:outputText value="#{usuarios.dataCriacao.getTime()}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="E-mail">
+								<h:outputText value="#{usuarios.email}" />
+							</p:column>
+							<p:column headerText="Ativo">
+								<p:outputLabel value="Sim" rendered="#{usuarios.ativo}"/>
+								<p:outputLabel value="Não" rendered="#{not usuarios.ativo}"/>
+							</p:column>
+							<p:column headerText="Ativar/Desativar">
+								<p:commandButton icon="ui-icon-check" action="#{usuarioBean.ativarDesativarUsuario(usuarios,usuarios.ativo)}" update="tabela"/>
+							</p:column>							
+						</p:dataTable>
+					</h:form>
+				</p:panel>
+			</p:layoutUnit>
+		</p:layout>
+		</div>
+	</ui:define>
+
+</ui:composition>

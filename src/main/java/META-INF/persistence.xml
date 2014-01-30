@@ -23,19 +23,12 @@
 			<property name="javax.persistence.jdbc.password" value="liberada" />
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle8iDialect" />
-
-			<!-- Oracle 11g -->
-			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@192.168.1.23:1521:csdesv" 
-				/> <property name="javax.persistence.jdbc.user" value="CSDBA" /> <property 
-				name="javax.persistence.jdbc.password" value="liberada" /> <property name="javax.persistence.jdbc.driver" 
-				value="oracle.jdbc.OracleDriver" /> <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" 
-				/> -->
-				
+			
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="true" />
 			
-			<!-- configuration pool via c3p0-->   
+			<!-- configuration pool via c3p0-->
 			<property name="hibernate.c3p0.acquireIncrement" value="1"/>   
 			<property name="hibernate.c3p0.idleConnectionTestPeriod" value="0"/>   
 			<property name="hibernate.c3p0.minPoolSize" value="3"/>

@@ -4,7 +4,7 @@ import javax.faces.bean.ManagedBean;
 
 import br.com.lopes.model.Pessoa;
 
-@ManagedBean
+//@ManagedBean
 public class PessoaBean {
 
 	Pessoa pessoa = new Pessoa();

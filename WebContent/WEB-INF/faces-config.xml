@@ -11,27 +11,10 @@
 		<message-bundle>Messages</message-bundle>
 	</application>
 	
+	<!-- Permitir o envio de mensagens de uma tela para outra -->
 	<lifecycle>
         <phase-listener>br.com.lopes.util.MultiPageMessagesSupport</phase-listener>
     </lifecycle>	
 
-
-<!-- 	<navigation-rule>
-		<display-name>pages/login.xhtml</display-name>
-		<from-view-id>/pages/login.xhtml</from-view-id>
-		
-		<navigation-case>
-			<from-outcome>true</from-outcome>
-			<to-view-id>/pages/menu.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-		
-		<navigation-case>
-			<from-outcome>false</from-outcome>
-			<to-view-id>/pages/login.xhtml?faces-redirect=true&amp;erro=true</to-view-id>
-			<redirect/>			
-		</navigation-case>	
-	</navigation-rule> -->
-	
 	
 </faces-config>

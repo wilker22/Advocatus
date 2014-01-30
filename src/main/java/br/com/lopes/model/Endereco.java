@@ -1,10 +1,14 @@
 package br.com.lopes.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 
 @Entity
 public class Endereco {
@@ -13,17 +17,21 @@ public class Endereco {
 	@Id @GeneratedValue(generator="enderecoGenerator")
 	private long id;	
 	
+	@Column(nullable=false)
 	private String endereco;
 	
 	private String cep;
 	
 	private int numero;
 	
+	@Index(name="AK_ENDERECO_COMPLEMENTO")
 	private String complemento;
 	
+	@ForeignKey(name="FK_ENDERECO_PESSOA")
 	@ManyToOne
 	private Pessoa pessoa;
 	
+	@ForeignKey(name="FK_ENDERECO_CIDADE")
 	@ManyToOne
 	private Cidade cidade;
 

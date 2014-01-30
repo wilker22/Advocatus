@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:outputStylesheet library="default" name="css/style.css"></h:outputStylesheet>
+
+<!--*****************************************************	
+HEAD
+*********************************************************-->
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<ui:insert name="head"/>
+</h:head>
+
+<h:body>
+	<div align="center">
+		<!--*****************************************************	
+		BODY
+		*********************************************************-->
+		<p:layout style="min-width:800px;max-width:1020px;min-height:620px" fullPage="true">
+			
+			<p:layoutUnit position="north" size="95" style="border:0">
+				<h2 id="site-logo">WebService</h2>
+			</p:layoutUnit>	
+			
+			<p:layoutUnit position="center" style="border:0">				
+				<p:layout>
+						<p:layoutUnit id="layoutUnitWest" position="west" resizable="true" style="border:0">
+							<p:panel style="" id="panelMenu" header="Menu" toggleable="true" toggleSpeed="500" widgetVar="panel">
+							<p:menu id="menuSistema">
+						 		<p:menuitem value="Meus dados" url="meus-dados.xhtml" icon="ui-icon-pencil" />
+
+								<p:submenu label="Cadastro">
+										<p:menuitem value="Usuários" url="lista-usuarios.xhtml" />
+										<p:menuitem value="Advogado" url="#" />
+									<p:submenu label="Processo">
+										<p:menuitem value="Processo" url="#" />
+										<p:menuitem value="Tipo Processo" url="#" />
+										<p:menuitem value="Fases Processo" url="#" />
+										<p:menuitem value="Órgão Judicial" url="#" />
+									</p:submenu>
+								</p:submenu>
+								
+								<p:submenu label="Processo" icon="ui-icon-suitcase">
+									<p:menuitem value="Andamento" url="#" />
+									<p:menuitem value="Prazos" url="#" />									
+								</p:submenu>
+																								
+								
+								<p:menuitem>
+									<h:form>
+									<p:commandLink styleClass="ui-menuitem-link" action="#{autenticacaoBean.logout}" ajax="false">
+										<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+										<h:outputText styleClass="ui-menuitem-text" value="Sair" />
+										<p:confirm header="Confirmação" message="Deseja sair do sistema ?" icon="ui-icon-alert" />
+									 </p:commandLink>
+									 
+									<p:confirmDialog global="true" showEffect="fade">
+									<p:commandButton value="Sim" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="Não" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									</p:confirmDialog>
+					        		</h:form>
+								</p:menuitem>
+								
+								</p:menu>
+							</p:panel>									
+						</p:layoutUnit>
+						
+						<!--*****************************************************
+						CORPO
+						***************************************************** -->
+						<p:layoutUnit id="center" position="center" style="border:0">
+							<ui:insert name="body">Conteúdo do corpo</ui:insert>							
+						</p:layoutUnit>					
+												
+						<!--*****************************************************	
+						FOOTER
+						*********************************************************-->						
+						<p:layoutUnit id="bottom" position="south" size="80" style="border:0">
+							<ui:insert name="footer"></ui:insert>
+							<h2 id="site-description">Compu-Software 2014 &copy; Todos os direitos reservados </h2>							
+						</p:layoutUnit>						
+						
+					</p:layout>
+			</p:layoutUnit>
+		</p:layout>
+	</div>
+
+</h:body>
+
+</html>

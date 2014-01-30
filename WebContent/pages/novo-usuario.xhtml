@@ -30,14 +30,13 @@
 					<h:panelGroup>
 					<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}" title="A senha deve ter entre 6 e 20 caracteres."/>
 					<p:tooltip for="senha" showEvent="focus" hideEvent="blur" />
-				</h:panelGroup>				
+				</h:panelGroup>
 				<h:outputLabel value="Confirme a senha:" for="senha2"/>
 				<h:inputSecret id="senha2" value="#{usuarioBean.usuario.senhaConfirmacao}"/>
 			</h:panelGrid>			
 			<h:commandButton value="Gravar" action="#{usuarioBean.novoUsuario(usuarioBean.usuario)}"/>
 			<h:messages/>			
 		</h:form>		
-		
 		<h:link id="clRetornar" value="Retornar" onclick="history.go(-1); return false;"/>   
           
 	</p:panel>

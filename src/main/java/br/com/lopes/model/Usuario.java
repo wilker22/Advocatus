@@ -1,6 +1,5 @@
 package br.com.lopes.model;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
@@ -19,8 +18,10 @@ import org.hibernate.annotations.ForeignKey;
 
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"logon"}, name="UK_USUARIO_01"))
-public class Usuario implements Serializable{
+@Table(uniqueConstraints={
+			@UniqueConstraint(columnNames={"logon"}, name="UK_USUARIO_01"),
+			@UniqueConstraint(columnNames={"email"}, name="UK_USUARIO_02")})							
+public class Usuario{
  
 	@SequenceGenerator(name="usuarioGenerator",sequenceName="seq_usuario")
 	@Id @GeneratedValue(generator="usuarioGenerator")
@@ -39,11 +40,11 @@ public class Usuario implements Serializable{
 	private String senha;
 	
 	@Transient
-	@NotNull(message="Confirme a Senha")
+	//@NotNull(message="Confirme a Senha")
 	private String senhaConfirmacao;
 	
 	@Column(nullable=false)
-	private int ativo;
+	private boolean ativo;
 	
 	@Column(nullable=false, updatable=false)
 	private Calendar dataCriacao;
@@ -100,11 +101,11 @@ public class Usuario implements Serializable{
 		this.dataCriacao = dataCriacao;
 	}
 	
-	public int getAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(int ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 	

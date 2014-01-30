@@ -2,6 +2,7 @@ package br.com.lopes.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ public class Pessoa {
 	@OneToMany(mappedBy="pessoa")
 	protected List<Endereco> enderecos;
 	
-	@OneToOne(mappedBy="pessoa")
+	@OneToOne(mappedBy="pessoa", cascade=CascadeType.ALL)
 	protected Usuario usuario;
 
 	public long getId() {

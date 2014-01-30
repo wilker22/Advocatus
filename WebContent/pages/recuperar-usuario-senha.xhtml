@@ -17,11 +17,12 @@
 		<h:form>
 			<h:panelGrid columns="1">
 			<h:outputLabel for="email" value="Informe seu e-mail"></h:outputLabel>
-			<h:inputText id="email" value="#{usuarioBean.usuario.logon}"></h:inputText>
+			<h:inputText id="email" value="#{usuarioBean.usuario.email}"></h:inputText>
 			<h:commandButton value="Enviar" action="#{usuarioBean.recuperarSenha(usuarioBean.usuario)}"></h:commandButton>
 			</h:panelGrid>
 		</h:form>
-	<h:link value="Retornar" outcome="login.xhtml"/>		
+		<h:messages/>
+		<h:link value="Retornar" outcome="login.xhtml"/>		
 	</p:dialog>
 </ui:define>
 </ui:composition>
