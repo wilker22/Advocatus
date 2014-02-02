@@ -13,31 +13,67 @@
 
 <ui:define name="body">
 
-<h:form>
-	<p:panel header="Dados Pessoais" widgetVar="panel">
-		<ui:repeat var="user" value="#{usuarioBean.selecionarUsuarioPorLogon(sessionScope.usuario)}" >					
-			<p:panelGrid columns="2">
-				<p:outputLabel for="nome" value="Nome"/>
-				<p:inputText id="nome" value="#{user.pessoa.nome}"/>
-				<p:outputLabel for="dataCriacao" value="Data Criação"/>
-				<p:outputLabel id="dataCriacao" value="#{user.dataCriacao.getTime()}" readonly="true">
-					<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-				</p:outputLabel>
-				<p:outputLabel for="usuario" value="Usuário"/>
-				<p:outputLabel id="usuario" value="#{user.logon}"/>
-				<p:outputLabel for="senha" value="Senha"/>
-				<h:inputSecret id="senha" value="#{user.senha}" />
-				<p:outputLabel for="email" value="E-mail"/>
-				<p:inputText id="email" value="#{user.email}"/>			
-			</p:panelGrid>
-			<h:commandButton value="Salvar" action="#{usuarioBean.salvar(usuarioBean.usuario)}"/>
-		</ui:repeat>				
-	</p:panel>	
-	</h:form>		
+<ui:remove>
+<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+              
+<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="true">  
+    <p:graphicImage library="default" name="img/ajax-loader.gif" />  
+</p:dialog>
+</ui:remove>
+
+<h:form id="formAlteracao">
+	<p:panel id="panelDadosPessoais" header="Dados Pessoais" style="margin-bottom:10px;">
+		<p:dataTable var="user" value="#{usuarioBean.selecionarUsuarioPorLogon(sessionScope.usuario)}"/>
+		
+		<h:panelGrid columns="2">
+			<p:outputLabel for="nome" value="Nome:"/>
+			<p:inputText id="nome" value="#{usuarioBean.usuario.pessoa.nome}" size="50"/>
+			
+			<p:outputLabel for="usuario" value="Usuário"/>
+			<p:outputLabel id="usuario" value="#{usuarioBean.usuario.logon}"/>
+			
+			<p:outputLabel value="Administrador"/>
+			<p:outputLabel value="Sim" rendered="#{usuarioBean.usuario.administrador}"/>
+			<p:outputLabel value="Não" rendered="#{not usuarioBean.usuario.administrador}"/>
+			
+			<p:outputLabel for="email" value="E-mail"/>
+			<p:inputText id="email" value="#{usuarioBean.usuario.email}" size="50"/>
+
+			<p:outputLabel for="dataCriacao" value="Data Criação:"/>
+			<p:outputLabel id="dataCriacao" value="#{usuarioBean.usuario.dataCriacao.getTime()}">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+			</p:outputLabel>		
+			
+			<p:commandButton value="Alterar Senha" process="@all" update="panelSenha" actionListener="#{usuarioBean.setVisualizaCampoSenha(true)}"/>
+			
+			<p:outputPanel id="panelSenha">
+			<p:panel header="Informe a nova senha" rendered="#{usuarioBean.visualizaCampoSenha()}">
+				<h:panelGrid columns="2">
+				<h:outputLabel for="senha" value="Senha"/>
+				<p:password id="senha" value="#{usuarioBean.usuario.senha}" required="true" requiredMessage="Informe a senha" match="senha2" validatorMessage="As senhas digitadas não coincidem!"/>
+				<h:outputLabel value="Confirme a senha:" for="senha2"/>
+				<p:password id="senha2" value="#{usuarioBean.usuario.senha}" required="true" requiredMessage="Confirme a senha"/>
+				<p:commandLink value="Cancelar" immediate="true" process="@all" update="panelSenha" actionListener="#{usuarioBean.setVisualizaCampoSenha(false)}"/>				
+			</h:panelGrid>
+			</p:panel>
+			</p:outputPanel>
+				
+		</h:panelGrid>
+			
+	</p:panel>
+	
+	<p:commandButton ajax="false" value="Salvar" action="#{usuarioBean.salvar(usuarioBean.usuario)}"/>
+	<h:form>	
+	<h:messages/>
+	</h:form>
+		
+</h:form>
 	
 	<p:panel header="Endereços">
 	
 	</p:panel>
+	
+		
 </ui:define>
 
 </ui:composition>

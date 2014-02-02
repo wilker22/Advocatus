@@ -12,32 +12,51 @@
 	</ui:define>
 
 	<ui:define name="body">
+		
 		<div align="center">
-		<p:layout style="min-width:1020px;max-width:1020px;min-height:600px" id="layout">			
+		<p:layout style="min-width:1020px;max-width:1020px;min-height:600px" id="layout">
+			<p:layoutUnit position="north">
+				<h:form>
+					<h:commandLink value="Criar novo usuário" action="#{usuarioBean.novoUsuario()}" rendered="#{usuarioBean.isUsuarioAdministrador(sessionScope.usuario)}"/>
+					<h:messages/>
+				</h:form>
+			</p:layoutUnit>			
 			<p:layoutUnit position="center" resizable="true" style="border:0">
 				<p:panel header="Usuários" style="border:0">				
 					<h:form>
-						<p:dataTable var="usuarios" value="#{usuarioBean.listaUsuarios()}" id="tabela">
+						<p:dataTable var="usuarios" value="#{usuarioBean.listaUsuarios()}" id="tabela" >
 							<p:column headerText="ID">
 								<h:outputText value="#{usuarios.id}" />
 							</p:column>
+							
 							<p:column headerText="Logon">
 								<h:outputText value="#{usuarios.logon}" />
 							</p:column>
+							
 							<p:column headerText="Data Criação">
 								<h:outputText value="#{usuarios.dataCriacao.getTime()}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 								</h:outputText>
 							</p:column>
+							
 							<p:column headerText="E-mail">
 								<h:outputText value="#{usuarios.email}" />
 							</p:column>
+							
 							<p:column headerText="Ativo">
 								<p:outputLabel value="Sim" rendered="#{usuarios.ativo}"/>
-								<p:outputLabel value="Não" rendered="#{not usuarios.ativo}"/>
+								<p:outputLabel value="Não" rendered="#{not usuarios.ativo}"/>								
+								<p:commandButton id="cbAtivarUsuario" icon="ui-icon-check" action="#{usuarioBean.ativarDesativarUsuario(usuarios,usuarios.ativo)}" update="tabela" style="margin-left:10px;" title="Ativar/Desativar usuário" rendered="#{usuarioBean.isUsuarioAdministrador(sessionScope.usuario)}">
+									<p:tooltip for="cbAtivarUsuario"/>
+								</p:commandButton>
 							</p:column>
-							<p:column headerText="Ativar/Desativar">
-								<p:commandButton icon="ui-icon-check" action="#{usuarioBean.ativarDesativarUsuario(usuarios,usuarios.ativo)}" update="tabela"/>
+							
+							<p:column headerText="Administrador">
+								<p:outputLabel value="Sim" rendered="#{usuarios.administrador}"/>
+								<p:outputLabel value="Não" rendered="#{not usuarios.administrador}"/>								
+								<p:commandButton id="cbAdministrador" icon="ui-icon-check" action="#{usuarioBean.setAdministrador(usuarios,usuarios.administrador)}" update="tabela" style="margin-left:10px;" title="Alterar situação Administrador" rendered="#{usuarioBean.isUsuarioAdministrador(sessionScope.usuario)}">
+									<p:tooltip for="cbAdministrador"/>
+								</p:commandButton>
 							</p:column>							
 						</p:dataTable>
 					</h:form>
@@ -45,6 +64,7 @@
 			</p:layoutUnit>
 		</p:layout>
 		</div>
+		
 	</ui:define>
 
 </ui:composition>

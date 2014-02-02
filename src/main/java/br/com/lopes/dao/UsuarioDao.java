@@ -175,7 +175,27 @@ public class UsuarioDao {
 		
 	}
 	
+	/**
+	 * Alterar situação de usuário administrador
+	 * @param usuario
+	 */
+	public void setAdministrador(Usuario usuario, boolean administrador){
+		usuario.setAdministrador(administrador);
+		
+		EntityManager manager = JPAUtil.getEntityManager();
+		manager.getTransaction().begin();
+		manager.merge(usuario);		
+		manager.getTransaction().commit();
+		manager.close();
+	}
 	
+	
+	public boolean isUsuarioAdministrador(String logon){
+		
+		Usuario usuario = selecionarUsuarioPorLogon(logon);
+						
+		return usuario.getAdministrador();
+	}
 	
 	/**
 	 * Listagem de todos os usuários do sistema

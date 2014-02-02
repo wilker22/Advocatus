@@ -36,15 +36,13 @@ public class Usuario{
 	private String email;
 	
 	@Column(nullable=false)	
-	@NotNull(message="Informe a Senha")
 	private String senha;
-	
-	@Transient
-	//@NotNull(message="Confirme a Senha")
-	private String senhaConfirmacao;
 	
 	@Column(nullable=false)
 	private boolean ativo;
+	
+	@Column(nullable=false)
+	private boolean administrador;
 	
 	@Column(nullable=false, updatable=false)
 	private Calendar dataCriacao;
@@ -85,14 +83,7 @@ public class Usuario{
 		this.senha= senha ;
 	}	
 	
-	public String getSenhaConfirmacao() {
-		return senhaConfirmacao;
-	}
-
-	public void setSenhaConfirmacao(String senhaConfirmacao) {
-		this.senhaConfirmacao = senhaConfirmacao;
-	}
-
+	
 	public Calendar getDataCriacao() {
 		return dataCriacao;
 	}
@@ -109,9 +100,16 @@ public class Usuario{
 		this.ativo = ativo;
 	}
 	
+	public boolean getAdministrador() {
+		return administrador;
+	}
+
+	public void setAdministrador(boolean administrador) {
+		this.administrador = administrador;
+	}
+
 	public void setPessoa(Pessoa pessoa){
 		this.pessoa = pessoa;
-		pessoa.setUsuario(this);
 	}
 
 	public Pessoa getPessoa() {

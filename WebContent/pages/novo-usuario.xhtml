@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/WEB-INF/templates/template.xhtml" 
+<ui:composition template="/WEB-INF/templates/template-menu.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -13,32 +13,37 @@
 
 
 <ui:define name="body">
-
-	<p:panel id="panel" header="Cadastro - Informe os dados abaixo" style="margin-bottom:10px;">
+	<p:panel id="panel" header="Cadastro - Informe os dados abaixo" style="margin-bottom:10px;" >
 		<h:form >
 			<h:panelGrid columns="2">			
-				<h:outputLabel value="Nome:" for="nome"/>
-				<h:inputText id="nome" value="#{usuarioBean.usuario.pessoa.nome}"/>
-				<h:outputLabel value="Usuário:" for="logon"/>
+				<p:outputLabel value="Nome:" for="nome"/>
+				<p:inputText id="nome" value="#{usuarioBean.usuario.pessoa.nome}"/>
+			
+				<p:outputLabel value="Usuário:" for="logon"/>
     			<h:panelGroup>				
-    				<h:inputText id="logon" value="#{usuarioBean.usuario.logon}" title="O usuário deve ter entre 4 e 20 caracteres." style="text-transform:uppercase"/>
-					<p:tooltip for="logon" showEvent="focus" hideEvent="blur" />    			    				
+    				<p:inputText id="logon" value="#{usuarioBean.usuario.logon}" title="O usuário deve ter entre 4 e 20 caracteres." style="text-transform:uppercase"/>
+					<p:tooltip for="logon" showEvent="focus" hideEvent="blur" />     				
     			</h:panelGroup>
-				<h:outputLabel value="E-mail:" for="email"/>
-				<h:inputText id="email" value="#{usuarioBean.usuario.email}"/>
-				<h:outputLabel value="Senha:" for="senha"/>				
+			
+				<p:outputLabel value="E-mail:" for="email"/>
+				<p:inputText id="email" value="#{usuarioBean.usuario.email}"/>
+			
+				<p:outputLabel value="Administrador ?" for="administrador"/>
+				<p:selectBooleanCheckbox id="administrador" style="checked:true" value="#{usuarioBean.usuario.administrador}"/>
+				
+				<p:outputLabel value="Senha:" for="senha"/>				
 					<h:panelGroup>
-					<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}" title="A senha deve ter entre 6 e 20 caracteres."/>
+					<p:password id="senha" value="#{usuarioBean.usuario.senha}" title="A senha deve ter entre 6 e 20 caracteres." required="true" requiredMessage="Informe a senha" match="senha2" validatorMessage="As senhas digitadas não coincidem!"/>					
 					<p:tooltip for="senha" showEvent="focus" hideEvent="blur" />
 				</h:panelGroup>
+				
 				<h:outputLabel value="Confirme a senha:" for="senha2"/>
-				<h:inputSecret id="senha2" value="#{usuarioBean.usuario.senhaConfirmacao}"/>
-			</h:panelGrid>			
-			<h:commandButton value="Gravar" action="#{usuarioBean.novoUsuario(usuarioBean.usuario)}"/>
+				<p:password id="senha2" value="#{usuarioBean.usuario.senha}" required="true" requiredMessage="Confirme a senha" />
+			
+			</h:panelGrid>
+			<p:commandButton ajax="false" value="Gravar" action="#{usuarioBean.gravarNovoUsuario(usuarioBean.usuario)}"/>
 			<h:messages/>			
 		</h:form>		
-		<h:link id="clRetornar" value="Retornar" onclick="history.go(-1); return false;"/>   
-          
 	</p:panel>
 </ui:define>
 

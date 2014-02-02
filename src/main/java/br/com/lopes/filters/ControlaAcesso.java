@@ -29,7 +29,6 @@ public class ControlaAcesso implements Filter {
 		if (session.getAttribute("usuario") != null
 				|| req.getRequestURI().endsWith("pages/index.xhtml")
 				|| req.getRequestURI().endsWith("pages/login.xhtml")
-				|| req.getRequestURI().endsWith("pages/novo-usuario.xhtml")
 				|| req.getRequestURI().endsWith("pages/recuperar-usuario-senha.xhtml")
 				|| req.getRequestURI().endsWith("template.xhtml")
 				|| req.getRequestURI().contains("logo_48x48.png")

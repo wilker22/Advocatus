@@ -30,10 +30,13 @@ public class UsuarioBean implements Serializable {
 	private UsuarioDao usuarioDao;
 	private List<Usuario> usuarios;
 
+	private boolean visualizaCampoSenha = false;
+	
 	public UsuarioBean() {
 		usuario = new Usuario();
 		pessoa = new Pessoa();
-		usuario.setPessoa(pessoa);		
+		usuario.setPessoa(pessoa);
+		pessoa.setUsuario(usuario);
 		usuarioDao = new UsuarioDao();
 	}
 
@@ -56,12 +59,21 @@ public class UsuarioBean implements Serializable {
 		return usuario;
 	}
 	
+	public String novoUsuario(){
+		this.usuario = new Usuario();
+		this.pessoa = new Pessoa();
+		usuario.setPessoa(pessoa);
+		pessoa.setUsuario(usuario);
+		
+		return "novo-usuario.xhtml?faces-redirect=true";
+	}
+	
 	/**
-	 * Adicionar um novo usuário na base de dados
+	 * Registra um novo usuário na base de dados
 	 * @param usuario
 	 * @return
 	 */
-	public String novoUsuario(Usuario usuario){
+	public String gravarNovoUsuario(Usuario usuario){
 		
 		List<String> mensagens = new ArrayList<String>();
 		
@@ -80,11 +92,6 @@ public class UsuarioBean implements Serializable {
 			mensagens.add("O e-mail utilizado não é válido. ["+usuario.getEmail()+ "]!");
 		}
 		
-		// Senhas não coincidem		
-		if (!usuario.getSenha().equals(usuario.getSenhaConfirmacao())){
-			mensagens.add("As senhas digitadas não coincidem!");
-		}
-		
 		
 		// Em caso de erro, não permitir a criação do novo usuário
 		if (!mensagens.isEmpty()){
@@ -97,16 +104,29 @@ public class UsuarioBean implements Serializable {
 		
 		usuarioDao.insert(usuario);
 
+		usuarios = null;
+		
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário "+usuario.getLogon()+" criado com sucesso!", null);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 		
-		return "login.xhtml?faces-redirect=true";
+		return "lista-usuarios.xhtml?faces-redirect=true";
 	}
 	
 	public String salvar(Usuario usuario){		
-		Logger.getLogger(UsuarioBean.class.getName()).info("Salvar alterações usuário:" + usuario.getLogon() + " Nome:"+ usuario.getPessoa().getNome());				
+		Logger.getLogger(UsuarioBean.class.getName()).info("Salvar alterações usuário:" + usuario.getLogon() + " Nome:"+ usuario.getPessoa().getNome());
+		
+		String msg = null;
+		
+		if (visualizaCampoSenha && usuario.getSenha().isEmpty()){
+			msg="Informe a senha";
+		}
+		
 		usuarioDao.update(usuario);
 		
+		visualizaCampoSenha = false;
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterações realizadas com sucesso!", null);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    	
 		return "meus-dados.xhtml";
 	}
 	
@@ -159,5 +179,24 @@ public class UsuarioBean implements Serializable {
 			usuarioDao.ativarUsuario(usuario);
 		}
 			
+	}
+
+	public void setAdministrador(Usuario usuario, boolean administrador){
+		Logger.getLogger(UsuarioBean.class.getName()).info("Alterar situação usuário "+ usuario.getLogon() + " administrador =  " + !administrador);
+		
+		usuarioDao.setAdministrador(usuario, !administrador);
+			
+	}
+	
+	public boolean isUsuarioAdministrador(String logon){
+		return usuarioDao.isUsuarioAdministrador(logon);
+	}
+	
+	public boolean visualizaCampoSenha() {
+		return visualizaCampoSenha;
+	}
+
+	public void setVisualizaCampoSenha(boolean visualizaCampoSenha) {
+		this.visualizaCampoSenha = visualizaCampoSenha;
 	}
 }
